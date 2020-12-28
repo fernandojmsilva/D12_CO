@@ -21,7 +21,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="bs-stepper.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -231,135 +231,142 @@
                             <div id="main">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form>
+                                        <form id="formNewRequest" method="post">
                                             <h5>1. Anonimato</h5>
-                                            <div id="anonymity">
-                                                <input type="radio" id="anonimo" name="anonimato" value="anonimo">
+                                            <div id="anonymity" >
+                                                <input type="radio" id="anonimo" name="anonimato" value="Anonimo" data-rule="required">
                                                 <label for="anonimo">Anonimo</label><br>
-                                                <input type="radio" id="naoAnonimo" name="anonimato" value="naoAnonimo">
+                                                <input type="radio" id="naoAnonimo" name="anonimato" value="Nao Anonimo" data-rule="required">
                                                 <label for="naoAnonimo">Não Anonimo</label><br>
                                             </div>
                                             <h5>2. Data e Hora</h5>
-                                            <div id="date"></div>
+
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="dateOcurrence">Data</label>
-                                                    <input type="date" id="dateOcurrence" class="form-control" name="dateOcurrence">
+                                                    <input type="date" id="dateOcurrence" class="form-control" name="dateOcurrence" data-rule="required|date">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="timeOcurrence">Hora</label>
-                                                    <input type="time" id="timeOcurrence" class="form-control" name="dateOcurrence">
+                                                    <input type="time" id="timeOcurrence" class="form-control" name="timeOcurrence" data-rule="required|time">
                                                 </div>
 
                                             </div>
 
                                             <h5>3. Identificaçao do Queixoso</h5>
                                             <div id="complainer"></div>
-                                            <div class="form-group">
-                                                <label for="inputCC">nº CC</label>
-                                                <input type="text" class="form-control" id="inputCC">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputCC">Nº CC</label>
+                                                    <input type="text" class="form-control" id="inputCC" data-rule="min-length-9">
+                                                    <div class="invalid-feedback">Por favor insira o CC, formato com 9 digitos.</div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputName">Nome</label>
+                                                    <input type="text" class="form-control" id="inputName" data-rule="name">
+                                                </div>
                                             </div>
-                                            <div class="form-group ">
-                                                <label for="inputName">Nome</label>
-                                                <input type="text" class="form-control" id="inputName">
+                                            <div class="form-group">
+                                                <label for="inputEmail">Email</label>
+                                                <input type="email" class="form-control" id="inputEmail" data-rule="email">
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputAddress">Morada</label>
-                                                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                                <label for="inputComplainerAddress">Morada</label>
+                                                <input type="text" class="form-control" id="inputComplainerAddress">
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="inputContact">Contacto</label>
-                                                    <input type="text" class="form-control" id="inputContact">
+                                                    <input type="text" class="form-control" id="inputContact" data-rule="minlength-9">
                                                 </div>
                                                 <div class="form-group col-md-4">
-                                                    <label for="inputState">Data de Nascimento</label>
-                                                    <input type="date" class="form-control" id="dateOcurrence" name="dateOcurrence">
+                                                    <label for="birth">Data de Nascimento</label>
+                                                    <input type="date" class="form-control" id="birth" name="birth" data-rule="date|birth">
                                                 </div>
                                                 <div class="form-group col-md-2">
-                                                    <label for="inputZip">Código Postal</label>
-                                                    <input type="text" class="form-control" id="inputZip">
+                                                    <label for="inputCode">Código Postal</label>
+                                                    <input type="text" class="form-control" id="inputCode" data-rule="minlength-7">
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-2">
-                                                <label for="genero">Género<p>
-                                                <div id="genero" >
-                                                  <input type="radio" id="male" name="gender" value="male">
-                                                  <label for="male">Masculino</label><br>
-                                                <input type="radio" id="female" name="gender" value="female">
-                                                <label for="female">Feminino</label><br>
+                                                <label for="genero">Género</label>
+                                                <div id="genero">
+                                                    <input type="radio" id="male" name="gender" value="M">
+                                                    <label for="male">Masculino</label><br>
+                                                    <input type="radio" id="female" name="gender" value="F">
+                                                    <label for="female">Feminino</label><br>
+                                                </div>
                                             </div>
-                                    </div>
-                                    <h5>4. Local</h5>
-                                    <div id="local"></div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="inputOptionLocal">Local</label>
-                                            <select id="inputOptionLocal" class="form-control">
+                                            <h5>4. Local</h5>
+                                            <div id="local"></div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputOptionLocal">Local</label>
+                                                    <select id="inputOptionLocal" class="form-control" data-rule="required">
                                                         <option>Via Pública</option>
                                                         <option>Edificio Comercial</option>
                                                         <option>Edificio Industrial</option>
                                                         <option>Residência</option>
                                                       </select>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="inputEntity">Entidade</label>
-                                            <input type="text" class="form-control" id="inputEntity" placeholder="nome entidade envolvida">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="inputLocality">Localidade</label>
-                                            <input type="text" class="form-control" id="inputLocality">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="inputAdress">Morada</label>
-                                            <input type="text" class="form-control" id="inputAdress" placeholder="1234 Main St">
-                                        </div>
-                                    </div>
-                                    <h5>5. Descrição</h5>
-                                    <div id="description"></div>
-                                    <div class="form-group">
-                                        <div class="form-group col-md-6">
-                                            <label for="type">Tipo<p>
-                                                <div id="type" >
-                                                  <input type="radio" id="roubo" name="type" value="roubo">
-                                                  <label for="roubo">Roubo</label><br>
-                                            <input type="radio" id="furto" name="type" value="furto">
-                                            <label for="furto">Furto</label><br>
-                                        </div>
-                                    </div>
-                                    <label for="TextareaDescription">Breve decrição da queixa (informações sobre o incidente que considere importante referir) 
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputEntity">Entidade</label>
+                                                    <input type="text" class="form-control" id="inputEntity" placeholder="nome entidade envolvida">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputLocality">Localidade</label>
+                                                    <input type="text" class="form-control" id="inputLocality" data-rule="required">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputAdress">Morada</label>
+                                                    <input type="text" class="form-control" id="inputAdress" placeholder="1234 Main St" data-rule="required">
+                                                </div>
+                                            </div>
+                                            <h5>5. Descrição</h5>
+                                            <div id="description"></div>
+                                            <div class="form-group">
+                                                <div class="form-group col-md-6" >
+                                                    <label for="type">Tipo</label>
+                                                    <div id="type">
+                                                        <input type="radio" id="roubo" name="type" value="roubo" data-rule="required">
+                                                        <label for="roubo">Roubo</label><br>
+                                                        <input type="radio" id="furto" name="type" value="furto" data-rule="required">
+                                                        <label for="furto">Furto</label><br>
+                                                    </div>
+                                                </div>
+                                                <label for="TextareaDescription">Breve descrição da queixa (informações sobre o incidente que considere importante referir) 
                                                    </label>
-                                    <textarea class="form-control" id="TextareaDescription" rows="10"></textarea>
+                                                <textarea class="form-control" id="TextareaDescription" rows="10"></textarea>
+                                            </div>
+                                            <button class="btn btn-primary float-right" type="submit">Submeter </button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <button class="btn btn-primary float-right" type="submit">Submeter </button>
-                                </form>
                             </div>
                         </div>
+
+                        <div>
+
+                        </div>
+
                     </div>
                 </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
 
-                <div>
-
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center text-white my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
                 </div>
+            </footer>
+            <!-- End of Footer -->
 
-            </div>
         </div>
-        <!-- /.container-fluid -->
-    </div>
-    <!-- End of Main Content -->
-
-    <!-- Footer -->
-    <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-            <div class="copyright text-center text-white my-auto">
-                <span>Copyright &copy; Your Website 2020</span>
-            </div>
-        </div>
-    </footer>
-    <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
+        <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
@@ -397,6 +404,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/js-form-validator.js"></script>
+    <script src="controller/request.submission.controller.js"></script>
+
 
 </body>
 

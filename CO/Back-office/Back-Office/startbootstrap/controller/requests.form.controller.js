@@ -1,165 +1,99 @@
 var urlParams = new URLSearchParams(window.location.search)
 console.log(urlParams.get('id'))
 
-fetch(`http://107.20.66.66:8080/requests/${urlParams.get('id')}`)
+
+fetch(`https://safeandsoundpw.herokuapp.com/requests/${urlParams.get('id')}`)
     .then(response => response.json())
     .then(requests => {
-        console.log(requests[0])
-        var anonymity = document.getElementById('anonymity')
-        var date = document.getElementById('date')
-        var complainer = document.getElementById('complainer')
-        var local = document.getElementById('local')
-        var description = document.getElementById('description')
-        requests.map(request => {
-            console.log(request.place)
-            if (request.anonymity == "Anonimo") {
-                var anonymityContent = '<div class="form-group col-md-6">'+
-                                        '<input type="radio" id="anonimo" name="anonimato" value="anonimo" checked>' +
-                                        '<label for="anonimo">Anonimo</label><br>' +
-                                        '<input type="radio" id="naoAnonimo" name="anonimato" value="naoAnonimo" disabled>' +
-                                        '<label for="naoAnonimo">Não Anonimo</label><br>'+
-                                        '</div>'
+        var dateOcurrenceInput = document.getElementById('dateOcurrence')
+        var request = requests[0]
+        console.log(request)
+        dateOcurrenceInput.valueAsDate = new Date(request.date)
+        dateOcurrenceInput.readOnly = true
 
-                anonymity.innerHTML = anonymityContent;
-                var dateContent = `<div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="dateOcurrence">Data</label>
-                                                    <input type="date" id="dateOcurrence" class="form-control" name="dateOcurrence" value=${request.date}>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="timeOcurrence">Hora</label>
-                                                    <input type="text" id="timeOcurrence" class="form-control" name="dateOcurrence" value=${request.time}>
-                                                </div>
+        console.log(new Date(request.date))
+        var timeOcurrenceInput = document.getElementById('timeOcurrence')
+        timeOcurrenceInput.value = request.time
+        timeOcurrenceInput.readOnly = true
 
-                                            </div>`
-                date.innerHTML = dateContent;
+        var localInput = document.getElementById('inputOptionLocal')
+        localInput.value = request.place
+        localInput.disable = true
 
-                var localContent = `<div class="form-row">
-                                    <div class="form-group col-md-6">
-                                    <label for="inputOptionLocal">Local</label>
-                                    <input type="text" class="form-control" id="inputOptionLocal" value=${request.place} readonly>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputEntity">Entidade</label>
-                                        <input type="text" class="form-control" id="inputEntity" value=${request.entity} readonly>
-                                    </div>
-                                    </div>
-                                    <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputLocality">Localidade</label>
-                                        <input type="text" class="form-control" id="inputLocality" value=${request.locality} readonly>
-                                    </div>
-                                                
-                                    <div class="form-group col-md-6">
-                                        <label for="inputAdress">Morada</label>
-                                        <input type="text" class="form-control" id="inputAdress" value=${request.address} readonly>
-                                    </div>
-                                    </div>`
-                local.innerHTML = localContent;
+        var entityInput = document.getElementById('inputEntity')
+        entityInput.value = request.entity
+        entityInput.readOnly = true
 
-                if (request.type == "Roubo") {
-                    var descriptionContent = ` <div class="form-group col-md-6">
-                                                    <label for="type">Tipo<p>
-                                                    <div id="type" >
-                                                     <input type="radio" id="roubo" name="type" value="roubo" checked>
-                                                     <label for="male">Roubo</label><br>
-                                                    <input type="radio" id="furto" name="type" value="furto" disabled>
-                                                    <label for="female">Furto</label><br>
-                                                </div>
-                                            </div>`
+        var localityInput = document.getElementById('inputLocality')
+        localityInput.value = request.locality
+        localityInput.readOnly = true
 
-                } else{
-                     var descriptionContent = ` <div class="form-group col-md-6">
-                                                    <label for="type">Tipo<p>
-                                                    <div id="type" >
-                                                     <input type="radio" id="roubo" name="type" value="roubo" disabled>
-                                                     <label for="male">Roubo</label><br>
-                                                    <input type="radio" id="furto" name="type" value="furto" checked>
-                                                    <label for="female">Furto</label><br>
-                                                </div>
-                                            </div>`
-
-                }
-                
-                descriptionContent += `<label for="TextareaDescription">Breve decrição da queixa (informações sobre o incidente que considere importante referir) 
-                                                </label>
-                                            <textarea class="form-control" id="TextareaDescription" rows="10" readonly>${request.description}</textarea>
-                                            </div>`
-                                            
-                description.innerHTML = descriptionContent;
-            }
-            else {
-                var anonymityContent =  '<div class="form-group col-md-6">'+
-                                        '<input type="radio" id="anonimo" name="anonimato" value="anonimo" disabled>' +
-                                        '<label for="anonimo">Anonimo</label><br>' +
-                                        '<input type="radio" id="naoAnonimo" name="anonimato" value="naoAnonimo" checked>' +
-                                        '<label for="naoAnonimo">Não Anonimo</label><br>'+
-                                        '</div>'
-                anonymity.innerHTML = anonymityContent;
-                
-                var dateContent = `<input type="text" id="dateOcurrence" class="form-control" name="dateOcurrence" value=${request.date} readonly>
-                                    <label></label>`
-                date.innerHTML = dateContent;
+        var addressInput = document.getElementById('inputAdress')
+        addressInput.value = request.address
+        addressInput.readOnly = true
 
 
-                var complainerContent = `<labelfor = "inputCC">Nº CC</label> <input type = "text" class="form-control" id="inputCC" value=${request.fk_Requests_complainer_cc} readonly></div>`
-                complainer.innerHTML = complainerContent;
-                
-                var localContent = `<div class="form-row">
-                                    <div class="form-group col-md-6">
-                                    <label for="inputOptionLocal">Local</label>
-                                    <input type="text" class="form-control" id="inputOptionLocal" value=${request.place} readonly>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inputEntity">Entidade</label>
-                                        <input type="text" class="form-control" id="inputEntity" value=${request.entity} readonly>
-                                    </div>
-                                    </div>
-                                    <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inputLocality">Localidade</label>
-                                        <input type="text" class="form-control" id="inputLocality" value=${request.locality} readonly>
-                                    </div>
-                                                
-                                    <div class="form-group col-md-6">
-                                        <label for="inputAdress">Morada</label>
-                                        <input type="text" class="form-control" id="inputAdress" value=${request.address} readonly>
-                                    </div>
-                                    </div>`
-                local.innerHTML = localContent;
-                
-                if (request.type == "Roubo") {
-                    var descriptionContent = ` <div class="form-group col-md-6">
-                                                    <label for="type">Tipo<p>
-                                                    <div id="type" >
-                                                     <input type="radio" id="roubo" name="type" value="roubo" checked>
-                                                     <label for="male">Roubo</label><br>
-                                                    <input type="radio" id="furto" name="type" value="furto" disabled>
-                                                    <label for="female">Furto</label><br>
-                                                </div>
-                                            </div>`
+        if (request.type == "furto") {
+            var furto = document.getElementById('furto')
+            furto.checked = true
+        }
+        else {
+            var roubo = document.getElementById('roubo')
+            roubo.checked = true
+        }
+        var descriptionInput = document.getElementById('TextareaDescription')
+        descriptionInput.value = request.description;
+        descriptionInput.readOnly = true
 
-                } else{
-                     var descriptionContent = ` <div class="form-group col-md-6">
-                                                    <label for="type">Tipo<p>
-                                                    <div id="type" >
-                                                     <input type="radio" id="roubo" name="type" value="roubo" disabled>
-                                                     <label for="male">Roubo</label><br>
-                                                    <input type="radio" id="furto" name="type" value="furto" checked>
-                                                    <label for="female">Furto</label><br>
-                                                </div>
-                                            </div>`
+        if (request.anonymity == "Anonimo") {
+            var anonymity = document.getElementById('anonimo')
+            anonymity.checked = true
+        }
+        else {
+            var naoAnonimo = document.getElementById('naoAnonimo')
+            naoAnonimo.checked = true
+            //dados do queixoso
+            fetch(`https://safeandsoundpw.herokuapp.com/complainers`)
+                .then(response => response.json())
+                .then(complainers => {
+                    complainers.map(complainer => {
+                        if (request.fk_Requests_complainer_cc == complainer.complainer_cc) {
+                            var ccInput = document.getElementById('inputCC')
+                            ccInput.readOnly = true
+                            ccInput.value = complainer.complainer_cc
+                            var nameInput = document.getElementById('inputName')
+                            nameInput.value = complainer.name
+                            nameInput.readOnly = true
+                            var emailInput = document.getElementById('inputEmail')
+                            emailInput.value = complainer.email
+                            emailInput.readOnly = true
+                            var complainerAdressInput = document.getElementById('inputComplainerAddress')
+                            complainerAdressInput.value = complainer.address
+                            complainerAdressInput.readOnly = true
+                            var contactInput = document.getElementById('inputContact')
+                            contactInput.value = complainer.phone_number
+                            contactInput.readOnly = true
+                            var birthInput = document.getElementById('birth')
+                            birthInput.valueAsDate = new Date(complainer.birth_date)
+                            birthInput.readOnly = true
+                            var codeInput = document.getElementById('inputCode')
+                            codeInput.value = complainer.postal_code
+                            codeInput.readOnly = true
+                            if (complainer.gender == "M") {
+                                var male = document.getElementById('male')
+                                male.checked = true
+                            }
+                            else {
+                                var female = document.getElementById('female')
+                                female.checked = true
+                            }
 
-                }
-                
-                descriptionContent += `<label for="TextareaDescription">Breve decrição da queixa (informações sobre o incidente que considere importante referir) 
-                                                </label>
-                                            <textarea class="form-control" id="TextareaDescription" rows="10" readonly>${request.description}</textarea>
-                                            </div>`
-                                            
-                description.innerHTML = descriptionContent;
-            }
 
-        })
+
+                        }
+                    })
+                })
+        }
+
+
     })
-

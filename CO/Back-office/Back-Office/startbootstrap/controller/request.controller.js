@@ -2,7 +2,7 @@
 //iterar tabela :linha e celula 
 //colocar dados que vem no sitio certo 
 
-fetch('http://107.20.66.66:8080/requests')
+fetch('https://safeandsoundpw.herokuapp.com/requests')
     .then(response => response.json())
     .then(requests => {
         console.log(requests);
@@ -33,7 +33,7 @@ fetch('http://107.20.66.66:8080/requests')
                                                 <i class="fas fa-folder-open" data-toggle="modal" data-target="#archiveRequestsModal"></i>
                                             </span>
                                         </a>`
-            if(request.status != "Validado"){
+            if (request.status != "Validado") {
                 actionsCellContent += `<a class="btn btn-primary btn-icon-split ">
                                         <span class="icon text-white">
                                             <i class="fas fa-check" data-toggle="modal" data-target="#successModal"></i>
@@ -41,37 +41,34 @@ fetch('http://107.20.66.66:8080/requests')
                                        </a>`
             }
             actionsCell.innerHTML = actionsCellContent;
-        })       
+        })
     })
+
 /*
-function saveRequest(){
-    //criar dicionario
-    var data = {};
-    data.anonimity = anonimityValue;
-    if (document.getElementById('anonimo').checked) {
-    anonimityValue = document.getElementById('anonimo').value;
-} else {
-    anonimityValue = document.getElementById('naoAnonimo').value;
-}
-    data.email = document.getElementById("email").value;
-    data.pass = document.getElementById("pwd").value; 
-    //submeter dados no servidor
-    fetch('http://107.20.66.66:8080/requests', {
-            headers: {'Content-Type': 'application/json'},
-            method: 'POST',
-            body: JSON.stringify(data)
-        }).then(function (response){
-            if (!response.ok) {
-                console.log(response.status); 
-                console.log(response.statusText); 
-                console.log(response.headers); 
-                console.log(response.url); 
-                if (response.status === 409) {
-                alert("Duplicated Email");
-            } else {
-                throw Error(response.statusText);
-            }
-            
+
+
         }
-}
-*/
+        else {
+            anonimityValue = document.getElementById('naoAnonimo').value;
+            data.inputCC = document.getElementById("inputCC").value;
+            data.inputName = document.getElementById("inputName").value;
+            data.inputEmail = document.getElementById("inputEmail").value;
+            data.inputComplainerAddress = document.getElementById("inputComplainerAddress").value;
+            data.inputContact = document.getElementById("inputContact").value;
+            data.inputBirth = document.getElementById("inputBirth").value;
+            data.inputZip = document.getElementById("inputZip").value;
+            data.anonimity = anonimityValue;
+            data.date = document.getElementById("dateOcurrence").value;
+            data.time = document.getElementById("timeOcurrence").value;
+            data.gender = document.getElementById("genero").checked.value;
+            var inputOptionLocal = document.getElementById("inputOptionLocal");
+            var local = inputOptionLocal.options[inputOptionLocal.selectedIndex].text;
+            data.local = local;
+            data.entity = document.getElementById("inputEntity").value;
+            data.locality = document.getElementById("inputLocality").value;
+            data.inputAdress = document.getElementById("inputAdress").value;
+            data.type = document.getElementById("type").checked.value;
+        }
+
+    }*/
+

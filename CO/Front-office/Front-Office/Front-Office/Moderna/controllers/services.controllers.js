@@ -1,4 +1,4 @@
-fetch('http://107.20.66.66:8080/services')
+fetch('https://safeandsoundpw.herokuapp.com/services')
     .then(response => response.json())
     .then(services => {
         services.map(service => {
