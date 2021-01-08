@@ -1,130 +1,157 @@
-window.onload = function() {
+ function saveRequest() {
+     //criar dicionario
+     var dataRequest = {};
+     dataRequest.date = document.getElementById("dateOcurrence").value;
+     dataRequest.time = document.getElementById("timeOcurrence").value;
+     var inputOptionLocal = document.getElementById("inputOptionLocal");
+     var place = inputOptionLocal.options[inputOptionLocal.selectedIndex].text;
+     dataRequest.place = place;
+     dataRequest.entity = document.getElementById("inputEntity").value;
+     dataRequest.locality = document.getElementById("inputLocality").value;
+     dataRequest.address = document.getElementById("inputAdress").value;
+     dataRequest.type = document.getElementById("type").checked;
+     dataRequest.urgency = document.getElementById("inputUrgency").value;
+     if (document.getElementById('roubo').checked) {
+         dataRequest.type = "roubo"
+     }
+     else {
+         dataRequest.type = "furto"
+     }
 
-    let validator = new Validator(document.getElementById("formNewRequest"), function(err, res) {
-        console.log(res)
-        console.log(err)
-        if (res) {
-            saveRequest();
-        }
-    }, {
-        errorClassName: 'help-block',
-        rules: {
+     dataRequest.description = document.getElementById("TextareaDescription").value;
+     console.log(document.getElementById('anonimo').checked)
+     if (document.getElementById('anonimo').checked) {
+         var anonimityValue = document.getElementById('anonimo').value;
+         dataRequest.anonymity = anonimityValue;
+         createRequest(dataRequest)
+             .then(response => {
+                 document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
+                 alert("Request submitted with success");
+             })
+     }
+     else {
+         const dataComplainer = {}
+         var anonimityValue = document.getElementById('naoAnonimo').value;
+         dataRequest.anonymity = anonimityValue;
 
-            birth: function(value) {
-                console.log(value)
-                return (new Date(value) < new Date(document.getElementById("dateOcurrence").value));
-            }
-        },
-        messages: {
-            en: {
-                birth: {
-                    incorrect: "Date Ocurrence must be after complainer's birth"
-                }
-            }
-        }
-    });
+         dataComplainer.complainer_cc = document.getElementById("inputCC").value;
+         dataComplainer.name = document.getElementById("inputName").value;
+         dataComplainer.email = document.getElementById("inputEmail").value;
+         dataComplainer.address = document.getElementById("inputComplainerAddress").value;
+         dataComplainer.phone_number = document.getElementById("inputContact").value;
+         dataComplainer.birth_date = document.getElementById("birth").value;
+         dataComplainer.postal_code = document.getElementById("inputCode").value;
+         dataComplainer.gender = document.getElementById('gender').value
 
-    function saveRequest() {
-        //criar dicionario
-        var data = {};
-        data.date = document.getElementById("dateOcurrence").value;
-        data.time = document.getElementById("timeOcurrence").value;
-        var inputOptionLocal = document.getElementById("inputOptionLocal");
-        var place = inputOptionLocal.options[inputOptionLocal.selectedIndex].text;
-        data.place = place;
-        data.entity = document.getElementById("inputEntity").value;
-        data.locality = document.getElementById("inputLocality").value;
-        data.address = document.getElementById("inputAdress").value;
-        data.type = document.getElementById("type").checked;
-        data.urgency = document.getElementById("inputUrgency").value;
-        if (document.getElementById('roubo').checked) {
-                data.type = "roubo"
-            }
-            else {
-                data.type = "furto"
-            }
-            
-        data.description = document.getElementById("TextareaDescription").value;
-        if (document.getElementById('anonimo').checked) {
-            var anonimityValue = document.getElementById('anonimo').value;
-            data.anonymity = anonimityValue;
-        }
-        else {
-            var anonimityValue = document.getElementById('naoAnonimo').value;
-            data.anonymity = anonimityValue;
-            data.complainer_cc = document.getElementById("inputCC").value;
-            data.name = document.getElementById("inputName").value;
-            data.email = document.getElementById("inputEmail").value;
-            data.address = document.getElementById("inputComplainerAddress").value;
-            data.phone_number = document.getElementById("inputContact").value;
-            data.birth_date = document.getElementById("birth").value;
-            data.postal_code = document.getElementById("inputCode").value;
-            if (document.getElementById('male').checked) {
-                data.gender = "M"
-            }
-            else {
-                data.gender = "F"
-            }
-            //submeter dados do queixoso no servidor
-            fetch('https://safeandsoundpw.herokuapp.com/complainers', {
-                headers: { 'Content-Type': 'application/json' },
-                method: 'POST',
-                body: JSON.stringify(data)
-            }).then(function(response) {
-                if (!response.ok) {
-                    console.log(response.status);
-                    console.log(response.statusText);
-                    console.log(response.headers);
-                    console.log(response.url);
-                    if (response.status === 409) {
-                        alert("Duplicated Email");
-                    }
-                    else {
-                        throw Error(response.statusText);
-                    }
+         //submeter dados do queixoso no servidor
+         fetch('https://safeandsoundpw.herokuapp.com/complainers', {
+             headers: { 'Content-Type': 'application/json' },
+             method: 'POST',
+             body: JSON.stringify(dataComplainer)
+         }).then(function(response) {
+             if (!response.ok) {
+                 console.log(response.status);
+                 console.log(response.statusText);
+                 console.log(response.headers);
+                 console.log(response.url);
+                 if (response.status === 409) {
+                     alert("Duplicated Entry");
+                 }
+                 else {
+                     throw Error(response.statusText);
+                 }
 
-                }
-                else {
-                    document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
-                    alert("Complainer data submitted with success");
-                }
-            }).then(function(result) {
-                console.log(result);
-            }).catch(function(err) {
-                alert("Complainer data submission error");
-                console.error(err);
-            });
-        }
-        console.log(data.time)
-        //submeter dados do pedido no servidor
-        fetch('https://safeandsoundpw.herokuapp.com/requests', {
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST',
-            body: JSON.stringify(data)
-        }).then(function(response) {
-            if (!response.ok) {
-                console.log(response.status);
-                console.log(response.statusText);
-                console.log(response.headers);
-                console.log(response.url);
-                if (response.status === 409) {
-                    alert("Duplicated Email");
-                }
-                else {
-                    throw Error(response.statusText);
-                }
+             }
+             else {
+                 dataRequest.complainer_cc = dataComplainer.complainer_cc
+                 createRequest(dataRequest)
+                     .then(response => {
+                         document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
+                         alert("Complainer data submitted with success");
+                     })
 
-            }
-            else {
-                document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
-                alert("submitted with success");
-            }
-        }).then(function(result) {
-            console.log(result);
-        }).catch(function(err) {
-            alert("Submission error");
-            console.error(err);
-        });
-        console.log(data)
-    }
-}
+             }
+         }).catch(function(err) {
+             alert("Complainer data submission error");
+             console.error(err);
+         });
+     }
+ }
+
+
+ function createRequest(data) {
+     return fetch('https://safeandsoundpw.herokuapp.com/requests', {
+         headers: { 'Content-Type': 'application/json' },
+         method: 'POST',
+         body: JSON.stringify(data)
+     }).then(function(response) {
+         if (!response.ok) {
+             console.log(response.status);
+             console.log(response.statusText);
+             console.log(response.headers);
+             console.log(response.url);
+             if (response.status === 409) {
+                 alert("Duplicated Email");
+             }
+             else {
+                 throw Error(response.statusText);
+             }
+
+         }
+         return response
+     }).catch(function(err) {
+         alert("Submission error");
+         console.error(err);
+     });
+ }
+
+ function setAnonymousView() {
+     console.log("anonimo")
+     document.getElementById("complainer").style.display = "none"
+
+     document.getElementById("inputCC").setAttribute("data-rule", "minlength-8| maxlength-8")
+     document.getElementById("inputName").setAttribute("data-rule", "name")
+     document.getElementById("inputEmail").setAttribute("data-rule", "email")
+     document.getElementById("inputComplainerAddress").removeAttribute("data-rule")
+     document.getElementById("inputContact").setAttribute("data-rule", "minlength-9|maxlength-9")
+     document.getElementById("birth").setAttribute("data-rule", "date|birth")
+     document.getElementById("inputCode").setAttribute("data-rule", "minlength-7|maxlength-7")
+     document.getElementById("gender").removeAttribute("data-rule")
+
+ }
+
+ function setNonAnonymousView() {
+     console.log("nao anonimo")
+     document.getElementById("complainer").style.display = "block"
+     document.getElementById("inputCC").setAttribute("data-rule", "minlength-8| maxlength-8|required")
+     document.getElementById("inputName").setAttribute("data-rule", "name|required")
+     document.getElementById("inputEmail").setAttribute("data-rule", "email|required")
+     document.getElementById("inputComplainerAddress").setAttribute("data-rule", "required")
+     document.getElementById("inputContact").setAttribute("data-rule", "minlength-9|maxlength-9|required")
+     document.getElementById("birth").setAttribute("data-rule", "date|birth|required")
+     document.getElementById("inputCode").setAttribute("data-rule", "minlength-7|maxlength-7|required")
+     document.getElementById("gender").setAttribute("data-rule", "required")
+ }
+
+ function changeAnonymityListener(event, validator) {
+
+     if (event.target.id == "anonimo") {
+         setAnonymousView()
+     }
+     else {
+         setNonAnonymousView()
+
+     }
+     validator.reload()
+ }
+
+ window.onload = function() {
+     setAnonymousView()
+     //initValidator criado no request.validator.js
+     let validator = initValidator(saveRequest)
+     //selecionar todos os elemenetos com o nome anonimato
+     document.querySelectorAll("input[name='anonimato']").forEach(input => {
+         input.addEventListener('change', event => changeAnonymityListener(event, validator))
+     })
+ }
+ 

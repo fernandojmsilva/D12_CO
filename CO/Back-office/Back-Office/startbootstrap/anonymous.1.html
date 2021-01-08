@@ -232,77 +232,85 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <form id="formNewRequest" method="post">
-                                            <h5>1. Anonimato</h5>
-                                            <div id="anonymity" >
+                                            <div id="changes">
+                                                <button class="btn btn-primary float-right" type="button"> <i class="fas fa-edit"></i></button>
+
+
+                                            </div>
+                                            <h5 id="firstHeader">Anonimato </h5>
+
+
+                                            <div id="anonymity">
                                                 <input type="radio" id="anonimo" name="anonimato" value="Anonimo" data-rule="required">
                                                 <label for="anonimo">Anonimo</label><br>
                                                 <input type="radio" id="naoAnonimo" name="anonimato" value="Nao Anonimo" data-rule="required">
                                                 <label for="naoAnonimo">Não Anonimo</label><br>
                                             </div>
-                                            <h5>2. Data e Hora</h5>
+                                            <h5>Data e Hora</h5>
 
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="dateOcurrence">Data</label>
-                                                    <input type="date" id="dateOcurrence" class="form-control" name="dateOcurrence" data-rule="required|date">
+                                                    <input type="date" id="dateOcurrence" class="form-control" name="date" data-rule="date">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="timeOcurrence">Hora</label>
-                                                    <input type="time" id="timeOcurrence" class="form-control" name="timeOcurrence" data-rule="required|time">
+                                                    <input type="time" id="timeOcurrence" class="form-control" name="time" data-rule="required|time" min="00:00:00" max="24:00:00" step='1'>
                                                 </div>
 
                                             </div>
 
-                                            <h5>3. Identificaçao do Queixoso</h5>
-                                            <div id="complainer"></div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="inputCC">Nº CC</label>
-                                                    <input type="text" class="form-control" id="inputCC" data-rule="min-length-9">
-                                                    <div class="invalid-feedback">Por favor insira o CC, formato com 9 digitos.</div>
+
+                                            <div id="complainer">
+                                                <h5>Identificaçao do Queixoso</h5>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputCC">Nº CC</label>
+                                                        <input type="text" class="form-control" id="inputCC" name="complainer_CC" data-rule="minlength-8| maxlength-8">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="inputName">Nome</label>
+                                                        <input type="text" class="form-control" id="inputName" name="name" data-rule="name">
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="inputName">Nome</label>
-                                                    <input type="text" class="form-control" id="inputName" data-rule="name">
+                                                <div class="form-group">
+                                                    <label for="inputEmail">Email</label>
+                                                    <input type="email" class="form-control" id="inputEmail" name="email" data-rule="email">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputComplainerAddress">Morada</label>
+                                                    <input type="text" class="form-control" id="inputComplainerAddress" name="address">
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="inputContact">Contacto</label>
+                                                        <input type="tel" class="form-control" id="inputContact" pattern="^\d{9}$" data-rule="minlength-9|maxlength-9" name="phone_number">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="birth">Data de Nascimento</label>
+                                                        <input type="date" class="form-control" id="birth" data-rule="date|birth" name="birth_date">
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label for="inputCode">Código Postal</label>
+                                                        <input type="text" class="form-control" id="inputCode" data-rule="minlength-7|maxlength-7" name="postal_code">
+                                                    </div>
+
+                                                    <div class="form-group col-md-2">
+                                                        <label for="genero">Género</label>
+                                                        <select name="gender" id="gender" class="form-control" data-rule="required">
+                                                            <option value="M">Masculino</option>
+                                                            <option value="F">Feminino</option>
+                                                        </select>
+
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="inputEmail">Email</label>
-                                                <input type="email" class="form-control" id="inputEmail" data-rule="email">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputComplainerAddress">Morada</label>
-                                                <input type="text" class="form-control" id="inputComplainerAddress">
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="inputContact">Contacto</label>
-                                                    <input type="text" class="form-control" id="inputContact" data-rule="minlength-9">
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label for="birth">Data de Nascimento</label>
-                                                    <input type="date" class="form-control" id="birth" name="birth" data-rule="date|birth">
-                                                </div>
-                                                <div class="form-group col-md-2">
-                                                    <label for="inputCode">Código Postal</label>
-                                                    <input type="text" class="form-control" id="inputCode" data-rule="minlength-7">
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <label for="genero">Género</label>
-                                                <div id="genero">
-                                                    <input type="radio" id="male" name="gender" value="M">
-                                                    <label for="male">Masculino</label><br>
-                                                    <input type="radio" id="female" name="gender" value="F">
-                                                    <label for="female">Feminino</label><br>
-                                                </div>
-                                            </div>
-                                            <h5>4. Local</h5>
+                                            <h5>Local</h5>
                                             <div id="local"></div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="inputOptionLocal">Local</label>
-                                                    <select id="inputOptionLocal" class="form-control" data-rule="required">
+                                                    <select id="inputOptionLocal" class="form-control" data-rule="required" name="place">
                                                         <option>Via Pública</option>
                                                         <option>Edificio Comercial</option>
                                                         <option>Edificio Industrial</option>
@@ -311,21 +319,21 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="inputEntity">Entidade</label>
-                                                    <input type="text" class="form-control" id="inputEntity" placeholder="nome entidade envolvida">
+                                                    <input type="text" class="form-control" id="inputEntity" placeholder="nome entidade envolvida" name="entity">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="inputLocality">Localidade</label>
-                                                    <input type="text" class="form-control" id="inputLocality" data-rule="required">
+                                                    <input type="text" class="form-control" id="inputLocality" data-rule="required" name="locality">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="inputAdress">Morada</label>
-                                                    <input type="text" class="form-control" id="inputAdress" placeholder="1234 Main St" data-rule="required">
+                                                    <input type="text" class="form-control" id="inputAdress" data-rule="required" name="address">
                                                 </div>
                                             </div>
-                                            <h5>5. Descrição</h5>
+                                            <h5>Descrição</h5>
                                             <div id="description"></div>
-                                            <div class="form-group">
-                                                <div class="form-group col-md-6" >
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
                                                     <label for="type">Tipo</label>
                                                     <div id="type">
                                                         <input type="radio" id="roubo" name="type" value="roubo" data-rule="required">
@@ -334,11 +342,15 @@
                                                         <label for="furto">Furto</label><br>
                                                     </div>
                                                 </div>
-                                                <label for="TextareaDescription">Breve descrição da queixa (informações sobre o incidente que considere importante referir) 
-                                                   </label>
-                                                <textarea class="form-control" id="TextareaDescription" rows="10"></textarea>
+                                                <div class="form-group col-md-2">
+                                                    <label for="inputUrgency">Urgência</label>
+                                                    <input type="number" class="form-control" id="inputUrgency" data-rule="require" min="1" max="5" name="urgency">
+                                                </div>
                                             </div>
-                                            <button class="btn btn-primary float-right" type="submit">Submeter </button>
+                                            <label for="TextareaDescription">Breve descrição da queixa (informações sobre o incidente que considere importante referir) 
+                                                   </label>
+                                            <textarea class="form-control" id="TextareaDescription" rows="10" name="description"></textarea>
+                                            <button class="btn btn-primary float-right" type="submit" id="submit" style="display:none"> Guardar Alterações </button>
                                         </form>
                                     </div>
                                 </div>
@@ -405,7 +417,9 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
     <script src="js/js-form-validator.js"></script>
-    <script src="controller/request.submission.controller.js"></script>
+    <!-- <script src="controller/requests.form.controller.js"></script> -->
+    <script src="controller/request.validator.js"></script>
+    <script src="controller/requests.form.controller.js"></script>
 
 
 </body>

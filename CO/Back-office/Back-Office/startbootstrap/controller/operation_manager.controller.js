@@ -1,3 +1,4 @@
+$(document).ready(function() {
 fetch('https://safeandsoundpw.herokuapp.com/operation_managers')
     .then(response => response.json())
     .then(managers => {
@@ -32,3 +33,5 @@ fetch('https://safeandsoundpw.herokuapp.com/operation_managers')
             actionsCell.innerHTML = actionsCellContent;
         })
     })
+     $('#dataTable').DataTable();
+});

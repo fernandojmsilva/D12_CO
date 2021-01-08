@@ -1,7 +1,7 @@
 var urlParams = new URLSearchParams(window.location.search)
 console.log(window.location)
 
-
+$(document).ready(function() {
 fetch('https://safeandsoundpw.herokuapp.com/occurrences')
     .then(response => response.json())
     .then(occurrences => {
@@ -21,7 +21,7 @@ fetch('https://safeandsoundpw.herokuapp.com/occurrences')
                 var servicesCell = row.insertCell()
                 servicesCell.innerHTML = occurrence.services
                 var actionsCell = row.insertCell()
-                var actionsCellContent = `<a class="btn btn-primary btn-icon-split " href="anonymous.html?id=${occurrence.fk_Occ_request_id}" style="color:#091A44">
+                var actionsCellContent = `<a class="btn btn-primary btn-icon-split " href="anonymous.1.html?id=${occurrence.fk_Occ_request_id}" style="color:#091A44">
                                                     <span class="icon text-white">
                                                         <i class="fas fa-eye"></i>
                                                     </span>
@@ -55,4 +55,6 @@ fetch('https://safeandsoundpw.herokuapp.com/occurrences')
 
             }
         })
+         $('#dataTableOccurrences').DataTable();
     })
+});
