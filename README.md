@@ -1,2 +1,1 @@
-# http://safeandsound.github.io
 
