@@ -17,7 +17,7 @@
          messages: {
              en: {
                  endDateOcurrence: {
-                     incorrect: "End-date ocurrence must be after start-date occurrence"
+                     incorrect: "End-date ocurrence must be after start-date occurrence."
                  }
              }
          }
