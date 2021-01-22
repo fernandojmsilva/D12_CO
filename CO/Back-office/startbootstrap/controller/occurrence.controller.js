@@ -1,6 +1,6 @@
 var urlParams = new URLSearchParams(window.location.search)
 console.log(window.location)
-import swal from 'sweetalert';
+
 $(document).ready(function() {
     fetch('https://safeandsoundpw.herokuapp.com/occurrences')
         .then(response => response.json())
