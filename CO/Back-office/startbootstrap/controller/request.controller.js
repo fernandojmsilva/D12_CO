@@ -1,3 +1,4 @@
+
 //pedir dados
 //iterar tabela :linha e celula 
 //colocar dados que vem no sitio certo 
@@ -6,6 +7,8 @@
 $(document).ready(function() {
     fetch('https://safeandsoundpw.herokuapp.com/requests')
         .then(response => response.json())
+        .then(requests => requests.filter(
+            request => request.filed == "No"))
         .then(requests => {
             console.log(requests);
             var tableBody = document.getElementById('tableBody');
@@ -77,6 +80,7 @@ $(document).ready(function() {
                 data.evaluation = document.getElementById('occurrenceEvaluation').value
                 //data.start_date = data.date
                 var start_date = document.getElementById('requestStartDate').value
+                data.filed = "No"
                 data.start_date = start_date
                 data.status1 = "A decorrer"
                 data.local = document.getElementById('requestLocality').value
@@ -134,9 +138,9 @@ $(document).ready(function() {
             $table.on('click', 'button.archive-action', function() {
                 var closestRow = $(this).closest('tr');
                 var data = $table.row(closestRow).data();
-                data.filed = "on"
+                data.filed = "Yes"
                 data.date = parseDate(data.date)
-                var id = document.getElementById('requestIdValidate').value
+                var id = data.request_id
                 delete data.request_id
                 console.log(data)
                 fetch(`https://safeandsoundpw.herokuapp.com/requests/${id}`, {
