@@ -93,6 +93,7 @@ $(document).ready(function() {
                 var start_date = document.getElementById('occurrenceStartDate').value
                 data.start_date = start_date
                 data.filed = "yes"
+                data.status1 = "Terminado"
                 data.end_date = end_date
                 delete data.occurrence_id
                 console.log(data)

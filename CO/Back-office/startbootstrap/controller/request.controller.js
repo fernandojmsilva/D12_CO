@@ -6,8 +6,6 @@
 $(document).ready(function() {
     fetch('https://safeandsoundpw.herokuapp.com/requests')
         .then(response => response.json())
-         .then(requests => requests.filter(
-                request => request.filed == "No"))
         .then(requests => {
             console.log(requests);
             var tableBody = document.getElementById('tableBody');
@@ -83,7 +81,6 @@ $(document).ready(function() {
                 data.status1 = "A decorrer"
                 data.local = document.getElementById('requestLocality').value
                 data.status2 = "on"
-                data.filed = "no"
                 console.log(data)
                 data.fk_Occ_request_id = document.getElementById('requestIdValidate').value
                 fetch(`https://safeandsoundpw.herokuapp.com/occurrences`, {
@@ -137,9 +134,9 @@ $(document).ready(function() {
             $table.on('click', 'button.archive-action', function() {
                 var closestRow = $(this).closest('tr');
                 var data = $table.row(closestRow).data();
-                data.filed = "Yes"
+                data.filed = "on"
                 data.date = parseDate(data.date)
-                var id = data.request_id
+                var id = document.getElementById('requestIdValidate').value
                 delete data.request_id
                 console.log(data)
                 fetch(`https://safeandsoundpw.herokuapp.com/requests/${id}`, {
@@ -148,7 +145,13 @@ $(document).ready(function() {
                     body: JSON.stringify(data)
                 }).then(function(response) {
                     if (!response.ok) {
-                        throw Error(response.statusText);
+                        if (response.status === 409) {
+                            alert("Duplicated Email");
+                        }
+                        else {
+                            throw Error(response.statusText);
+                        }
+
                     }
                     window.location = "archived-requests.html"
                     return response

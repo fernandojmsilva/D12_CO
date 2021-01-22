@@ -34,7 +34,7 @@ window.onload = function() {
       let finishedOccurrences = 0
       let nonFinishedOccurrences = 0
       occurrences.forEach(occurrence => {
-        if (occurrence.status == "A decorrer") {
+        if (occurrence.status1 == "A decorrer") {
           nonFinishedOccurrences += 1
         }
         else {
@@ -150,8 +150,8 @@ function initPieChart(nonFinishedOccurrences, finishedOccurrences) {
       labels: ["A decorrer", "Terminadas"],
       datasets: [{
         data: [nonFinishedOccurrences, finishedOccurrences],
-        backgroundColor: ['#4e73df', '#1cc88a'],
-        hoverBackgroundColor: ['#2e59d9', '#17a673'],
+        backgroundColor: ['#1cc88a','#4e73df'],
+        hoverBackgroundColor: ['#17a673','#2e59d9'],
         hoverBorderColor: "rgba(234, 236, 244, 1)",
       }],
     },
