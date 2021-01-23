@@ -71,29 +71,18 @@ $(document).ready(function() {
                 fetch(`https://safeandsoundpw.herokuapp.com/occurrences/${urlParams.get('id')}`)
                     .then(response => response.json())
                     .then(occurrence => {
-                        console.log(occurrence)
-                        data.start_date = occurrence.start_date
-                        data.status1 = occurrence.status1
-                        data.local = occurrence.local
-                        data.evaluation = occurrence.evaluation
-                        data.access_code = occurrence.access_code
-                        data.fk_Occ_request_id = occurrence.fk_Occ_request_id
-                        data.status2 = occurrence.status2
-                         console.log(data)
-                    })
-               
-                fetch(`https://safeandsoundpw.herokuapp.com/occurrences/${urlParams.get('id')}`, {
-                    headers: { 'Content-Type': 'application/json' },
-                    method: 'PUT',
-                    body: JSON.stringify(data)
-                }).then(function(response) {
-                    if (!response.ok) {
-                        throw Error(response.statusText);
-                    }
-                    else {
-                        var data = { ...selectedManager }
-                        data.availability = "Indisponivel"
-                        fetch(`https://safeandsoundpw.herokuapp.com/operation_managers/${manager_id}`, {
+                        console.log(occurrence[0])
+                        var start_date = occurrence[0].start_date
+                        data.start_date = parseDate(start_date)
+                        data.status1 = occurrence[0].status1
+                        data.local = occurrence[0].local
+                        data.evaluation = occurrence[0].evaluation
+                        data.access_code = occurrence[0].access_code
+                        data.fk_Occ_request_id = occurrence[0].fk_Occ_request_id
+                        data.status2 = occurrence[0].status2
+                        data.filed = "no"
+                        console.log(data)
+                        fetch(`https://safeandsoundpw.herokuapp.com/occurrences/${urlParams.get('id')}`, {
                             headers: { 'Content-Type': 'application/json' },
                             method: 'PUT',
                             body: JSON.stringify(data)
@@ -102,23 +91,38 @@ $(document).ready(function() {
                                 throw Error(response.statusText);
                             }
                             else {
+                                var data = { ...selectedManager }
+                                data.availability = "Indisponivel"
+                                fetch(`https://safeandsoundpw.herokuapp.com/operation_managers/${manager_id}`, {
+                                    headers: { 'Content-Type': 'application/json' },
+                                    method: 'PUT',
+                                    body: JSON.stringify(data)
+                                }).then(function(response) {
+                                    if (!response.ok) {
+                                        throw Error(response.statusText);
+                                    }
+                                    else {
 
-                                alert("Manager changed and assigned with success");
-                                window.location = "occurrences.html"
+                                        alert("Manager changed and assigned with success");
+                                        window.location = "occurrences.html"
+
+                                    }
+                                    return response
+                                }).catch(function(err) {
+                                    window.location = "occurrences.html"
+                                    alert("Manager changed error");
+                                    console.error(err);
+                                })
 
                             }
                             return response
                         }).catch(function(err) {
-                            alert("Manager changed error");
+                            alert("assigned error");
                             console.error(err);
-                        })
+                        });
+                    })
 
-                    }
-                    return response
-                }).catch(function(err) {
-                    alert("assigned error");
-                    console.error(err);
-                });
+
 
             })
         })

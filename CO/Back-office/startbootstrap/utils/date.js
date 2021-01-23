@@ -10,5 +10,5 @@ function formatDate(value) {
 
 function parseDate(value) {
     const date = new Date(value)
-    return `${date.getFullYear()}-${date.getMonth()+ 1}-${date.getDay()}`
+    return `${date.getFullYear()}-${date.getMonth()+ 1}-${date.getDate()}`
 }

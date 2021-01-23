@@ -1,23 +1,33 @@
 window.onload = function() {
     var signin = document.getElementById('signin')
     signin.addEventListener("click", function() {
-
+        var data = {}
         const email = document.getElementById('email').value
-        const pass = document.getElementById('pwd').value
-        fetch(`https://safeandsoundpw.herokuapp.com/signin`, {
+        const password = document.getElementById('pwd').value
+        data.email = email
+        data.password = password
+        fetch('https://safeandsoundpw.herokuapp.com/signin', {
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+                    'Content-Type': 'application/json'
                 },
                 method: "POST",
-                body: `email=${email}&password=${pass}`
+                body: JSON.stringify(data)
             })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-                alert("Autenticação feita com sucesso!")
-                window.location.replace("login.html")
-                return response.json();
+                else {
+                    login()
+                    async function login() {
+                        const res = await fetch('https://safeandsoundpw.herokuapp.com/signinSuccess');
+                        alert("Autenticação feita com sucesso!")
+                        window.location.replace("login.html")
+                        return response.json();
+                    }
+                }
+            }).then(function(result) {
+                console.log(result);
             })
             .catch(error => {
                 alert(`Pedido falhado: ${error}`);
