@@ -13,6 +13,6 @@
     "fetch": "^1.1.0",
     "node": "^15.3.0",
     "node-fetch": "^2.6.1",
-    "sweetalert": "^2.1.2"
+    "sweetalert2": "^10.13.0"
   }
 }

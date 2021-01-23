@@ -9,7 +9,10 @@ $(document).ready(function() {
                     { title: "#Id", data: 'manager_id' },
                     {
                         title: "Birth Date",
-                        data: 'birth_date'
+                        data: 'birth_date',
+                        "render": function(value, cell, request) {
+                            return formatDate(value)
+                        }
                     },
                     {
                         title: "Distância ao local (Km) ",
@@ -51,6 +54,7 @@ $(document).ready(function() {
                                         </span>
                                                     </button>`
                             }
+                            else { action = "" }
                             return action
                         }
                     }
@@ -93,6 +97,8 @@ $(document).ready(function() {
                             else {
                                 var data = { ...selectedManager }
                                 data.availability = "Indisponivel"
+                                var birth_date = parseDate(data.birth_date)
+                                data.birth_date = birth_date
                                 fetch(`https://safeandsoundpw.herokuapp.com/operation_managers/${manager_id}`, {
                                     headers: { 'Content-Type': 'application/json' },
                                     method: 'PUT',
@@ -102,23 +108,36 @@ $(document).ready(function() {
                                         throw Error(response.statusText);
                                     }
                                     else {
-
-                                        alert("Manager changed and assigned with success");
-                                        window.location = "occurrences.html"
-
+                                        Swal.fire(
+                                            'Atribuição de gestor feita com sucesso.',
+                                            `Gestor com id=${id} está agora indisponível.`,
+                                            'success'
+                                        ).then((result => {
+                                            window.location = "occurrences.html"
+                                        }))
                                     }
                                     return response
                                 }).catch(function(err) {
-                                    window.location = "occurrences.html"
-                                    alert("Manager changed error");
-                                    console.error(err);
+                                    Swal.fire(
+                                        'Oops',
+                                        `Ocorreu um erro.Tente mais tarde.`,
+                                        'erro'
+                                    ).then((result => {
+                                        window.location = "occurrences.html"
+                                    }))
+
                                 })
 
                             }
                             return response
                         }).catch(function(err) {
-                            alert("assigned error");
-                            console.error(err);
+                            Swal.fire(
+                                'Oops',
+                                `Ocorreu um erro na atribuição.Tente mais tarde.`,
+                                'erro'
+                            ).then((result => {
+                                window.location = "occurrences.html"
+                            }))
                         });
                     })
 

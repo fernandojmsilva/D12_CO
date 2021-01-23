@@ -7,25 +7,40 @@ function updateRequest(id, data) {
     }).then(function(response) {
         if (!response.ok) {
             if (response.status === 409) {
-                alert("Duplicated Email");
+                Swal.fire(
+                    'Dados duplicados.',
+                    'Reintroduza corretamente os dados',
+                    'warning'
+                )
             }
             else {
                 throw Error(response.statusText);
             }
-
         }
+        else {
+            Swal.fire(
+                'Pedido atualizado com sucesso.',
+                '',
+                'success'
+            )
+        }
+
         return response
     }).catch(function(err) {
-        alert("Submission error");
+        Swal.fire(
+            'Oops!',
+            `Erro: Pedido não submetido.Erro na alteraçao.Tente novamente.`,
+            'error'
+        )
         console.error(err);
     });
 }
 
-function saveRequest(request,complainer) {
+function saveRequest(request, complainer) {
     //criar dicionario
     var dataRequest = {};
-    dataRequest.status="Não Validado"
-    dataRequest.status1="on"
+    dataRequest.status = "Não Validado"
+    dataRequest.status1 = "on"
     dataRequest.date = document.getElementById("dateOcurrence").value;
     dataRequest.time = document.getElementById("timeOcurrence").value;
     var inputOptionLocal = document.getElementById("inputOptionLocal");
@@ -48,7 +63,7 @@ function saveRequest(request,complainer) {
     if (document.getElementById('anonimo').checked) {
         var anonimityValue = document.getElementById('anonimo').value;
         dataRequest.anonymity = anonimityValue;
-        updateRequest(request.request_id,dataRequest)
+        updateRequest(request.request_id, dataRequest)
             .then(response => {
                 alert("Request submitted with success");
             })
@@ -229,7 +244,7 @@ window.onload = function() {
                     })
             }
             //initValidator criado no request.validator.js
-            let validator = initValidator(() => saveRequest(request,complainer))
+            let validator = initValidator(() => saveRequest(request, complainer))
 
 
         })

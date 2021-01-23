@@ -1,34 +1,34 @@
 var urlParams = new URLSearchParams(window.location.search)
 console.log(window.location)
+window.onload = function() {
+    $(document).ready(function() {
+        fetch('https://safeandsoundpw.herokuapp.com/occurrences')
+            .then(response => response.json())
+            .then(occurrences => occurrences.filter(
+                occurrence => occurrence.filed == "no"))
+            .then(occurrences => {
+                console.log(occurrences);
+                var tableBody = document.getElementById('dataTableOccurrences');
+                var $table = $('#dataTableOccurrences').DataTable({
+                    data: occurrences,
+                    columns: [
+                        { title: "#Id", data: 'occurrence_id' },
+                        {
+                            title: "Local",
+                            data: 'local'
+                        },
+                        {
+                            title: "Exigência",
+                            data: 'evaluation'
+                        },
+                        { title: "Manager", data: 'fk_Occ_manager_id' },
+                        { title: "Serviços", data: 'services' },
+                        {
+                            title: "Ações",
+                            data: null,
+                            "render": function(value, cell, occurrence) {
 
-$(document).ready(function() {
-    fetch('https://safeandsoundpw.herokuapp.com/occurrences')
-        .then(response => response.json())
-        .then(occurrences => occurrences.filter(
-            occurrence => occurrence.filed == "no"))
-        .then(occurrences => {
-            console.log(occurrences);
-            var tableBody = document.getElementById('dataTableOccurrences');
-            var $table = $('#dataTableOccurrences').DataTable({
-                data: occurrences,
-                columns: [
-                    { title: "#Id", data: 'occurrence_id' },
-                    {
-                        title: "Local",
-                        data: 'local'
-                    },
-                    {
-                        title: "Exigência",
-                        data: 'evaluation'
-                    },
-                    { title: "Manager", data: 'fk_Occ_manager_id' },
-                    { title: "Serviços", data: 'services' },
-                    {
-                        title: "Ações",
-                        data: null,
-                        "render": function(value, cell, occurrence) {
-
-                            var action = `<a class="btn btn-primary btn-icon-split " href="anonymous.1.html?id=${occurrence.fk_Occ_request_id}" style="color:#091A44">
+                                var action = `<a class="btn btn-primary btn-icon-split " href="anonymous.1.html?id=${occurrence.fk_Occ_request_id}" style="color:#091A44">
                                                                 <span class="icon text-white">
                                                                     <i class="fas fa-eye"></i>
                                                                 </span>
@@ -49,72 +49,123 @@ $(document).ready(function() {
                                                                 
                                                             </button>`
 
-                            if (occurrence.fk_Occ_manager_id == null) {
-                                action += `<button class="btn btn-primary btn-icon-split manager-action"  style="color:#091A44">
+                                if (occurrence.fk_Occ_manager_id == null) {
+                                    action += `<button class="btn btn-primary btn-icon-split manager-action"  style="color:#091A44">
                                                                  <span class="icon text-white">
                                                                     <i class="fas fa-user-tie"></i> 
                                                                 </span>
                                                             </button>`
+                                }
+                                return action
                             }
-                            return action
                         }
-                    }
-                ]
-            });
-            let selectedOccurrence
-            //archive occurrence action
-            $table.on('click', 'button.archive-action', function() {
-                var closestRow = $(this).closest('tr');
-                var data = $table.row(closestRow).data();
-                selectedOccurrence = data
-                document.getElementById('occurrenceStartDate').value = parseDate(data.start_date)
-                document.getElementById('occurrenceIdArchive').value = data.occurrence_id
-
-                $('#occurrenceArchiveModal').modal('show')
-            })
-            $table.on('click', 'button.manager-action', function() {
-                var closestRow = $(this).closest('tr');
-                var data = $table.row(closestRow).data();
-                selectedOccurrence = data
-                document.getElementById('occurrenceStartDate').value = parseDate(data.start_date)
-                
-                document.getElementById('occurrenceIdArchive').value = data.occurrence_id
-                var id = data.occurrence_id
-                console.log(selectedOccurrence)
-                window.location = `managers.html?id=${id}`
-                
-
-            })
-            document.getElementById('archiveOccurrence').onclick = function(e) {
-                var data = { ...selectedOccurrence }
-                console.log(selectedOccurrence)
-                var id = document.getElementById('occurrenceIdArchive').value
-                var end_date = document.getElementById('endDateOcurrence').value
-                var start_date = document.getElementById('occurrenceStartDate').value
-                data.start_date = start_date
-                data.filed = "yes"
-                data.status1 = "Terminado"
-                data.end_date = end_date
-                delete data.occurrence_id
-                console.log(data)
-                fetch(`https://safeandsoundpw.herokuapp.com/occurrences/${id}`, {
-                    headers: { 'Content-Type': 'application/json' },
-                    method: 'PUT',
-                    body: JSON.stringify(data)
-                }).then(function(response) {
-                    if (!response.ok) {
-
-                        throw Error(response.statusText);
-
-                    }
-                    else alert("Occurrence archived with success");
-                    window.location = "finished-occurrences.html"
-                    return response
-                }).catch(function(err) {
-                    alert("Nao arquivada error");
-                    console.error(err);
+                    ]
                 });
-            }
+                let selectedOccurrence
+                //archive occurrence action
+                $table.on('click', 'button.archive-action', function() {
+                    var closestRow = $(this).closest('tr');
+                    var data = $table.row(closestRow).data();
+                    selectedOccurrence = data
+                    document.getElementById('occurrenceStartDate').value = parseDate(data.start_date)
+                    document.getElementById('occurrenceIdArchive').value = data.occurrence_id
 
-        })
-});
+                    $('#occurrenceArchiveModal').modal('show')
+                })
+                $table.on('click', 'button.manager-action', function() {
+                    var closestRow = $(this).closest('tr');
+                    var data = $table.row(closestRow).data();
+                    selectedOccurrence = data
+                    document.getElementById('occurrenceStartDate').value = parseDate(data.start_date)
+
+                    document.getElementById('occurrenceIdArchive').value = data.occurrence_id
+                    var id = data.occurrence_id
+                    console.log(selectedOccurrence)
+                    window.location = `managers.html?id=${id}`
+
+
+                })
+                document.getElementById('archiveOccurrence').onclick = function(e) {
+                    var data = { ...selectedOccurrence }
+                    console.log(selectedOccurrence)
+                    var id = document.getElementById('occurrenceIdArchive').value
+                    var end_date = document.getElementById('endDateOcurrence').value
+                    var start_date = document.getElementById('occurrenceStartDate').value
+                    data.start_date = start_date
+                    data.filed = "yes"
+                    data.status1 = "Terminado"
+                    data.end_date = end_date
+                    console.log(data)
+                    if (new Date(start_date) < new Date(end_date)) {
+                        fetch(`https://safeandsoundpw.herokuapp.com/occurrences/${id}`, {
+                            headers: { 'Content-Type': 'application/json' },
+                            method: 'PUT',
+                            body: JSON.stringify(data)
+                        }).then(function(response) {
+                            if (!response.ok) {
+                                throw Error(response.statusText);
+                            }
+                            else {
+
+                                var id = data.fk_Occ_manager_id
+                                var dataManager = {}
+                                fetch(`https://safeandsoundpw.herokuapp.com/operation_managers/${id}`)
+                                    .then(response => response.json())
+                                    .then(manager => {
+                                        console.log(manager[0])
+                                        var birth_date = manager[0].birth_date
+                                        dataManager.birth_date = parseDate(birth_date)
+                                        dataManager.rating = manager[0].rating
+                                        dataManager.phone_number = manager[0].phone_number
+                                        dataManager.email = manager[0].email
+                                        dataManager.availability = "Disponivel"
+                                        dataManager.status = manager[0].status
+                                        data.fk_OM_user_id = manager[0].fk_OM_user_id
+                                        console.log(dataManager)
+                                        fetch(`https://safeandsoundpw.herokuapp.com/operation_managers/${id}`, {
+                                            headers: { 'Content-Type': 'application/json' },
+                                            method: 'PUT',
+                                            body: JSON.stringify(dataManager)
+                                        }).then(function(response) {
+                                            if (!response.ok) {
+                                                throw Error(response.statusText);
+                                            }
+                                            else {
+                                                Swal.fire(
+                                                    'Atribuição de gestor!',
+                                                    `Gestor com id=${id} está agora disponível.`,
+                                                    'info'
+                                                )
+                                            }
+
+                                        })
+                                    })
+                                Swal.fire(
+                                    'Ocorrência arquivada com sucesso.',
+                                    '',
+                                    'success'
+                                ).then((result => {
+                                    window.location = "finished-occurrences.html"
+                                }))
+
+                            }
+                        }).catch(function(err) {
+                            Swal.fire(
+                                'Oops!',
+                                `Erro: Ocorrência não arquivada. Tente mais tarde.`,
+                                'error'
+                            )
+                        })
+                    }
+                    else {
+                        Swal.fire(
+                            'Oops!',
+                            `End-Date da ocorrência tem de ser posterior à Start-Date. A ocorrência começou a ${start_date}.`,
+                            'warning'
+                        )
+                    }
+                }
+
+            })
+    })
+}

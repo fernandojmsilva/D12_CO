@@ -28,7 +28,14 @@
          createRequest(dataRequest)
              .then(response => {
                  document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
-                 alert("Request submitted with success");
+                 Swal.fire(
+                         'Pedido submetido com sucesso.',
+                         '',
+                         'success'
+                     )
+                     .then((result => {
+                         window.location = "requests.html"
+                     }))
              })
      }
      else {
@@ -56,25 +63,26 @@
                  console.log(response.statusText);
                  console.log(response.headers);
                  console.log(response.url);
-                 if (response.status === 409) {
-                     alert("Duplicated Entry");
-                 }
-                 else {
-                     throw Error(response.statusText);
-                 }
-
              }
              else {
                  dataRequest.complainer_cc = dataComplainer.complainer_cc
                  createRequest(dataRequest)
                      .then(response => {
                          document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
-                         alert("Complainer data submitted with success");
+                         Swal.fire(
+                             'Pedido submetido com sucesso.',
+                             '',
+                             'success'
+                         )
                      })
 
              }
          }).catch(function(err) {
-             alert("Complainer data submission error");
+             Swal.fire(
+                 'Oops!',
+                 `Erro: Pedido não submetido.Tente mais tarde.`,
+                 'error'
+             )
              console.error(err);
          });
      }
@@ -93,7 +101,11 @@
              console.log(response.headers);
              console.log(response.url);
              if (response.status === 409) {
-                 alert("Duplicated Email");
+                 Swal.fire(
+                     'Dados duplicados.',
+                     'Reintroduza corretamente os dados',
+                     'warning'
+                 )
              }
              else {
                  throw Error(response.statusText);
@@ -102,8 +114,12 @@
          }
          return response
      }).catch(function(err) {
-           console.log(data)
-         alert("Submission error");
+         console.log(data)
+         Swal.fire(
+             'Oops!',
+             `Erro: Pedido não submetido.Tente novamente.`,
+             'error'
+         )
          console.error(err);
      });
  }

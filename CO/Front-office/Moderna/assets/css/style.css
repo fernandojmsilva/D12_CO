@@ -2485,3 +2485,11 @@ h3 {
   text-align: center;
   background-color: #f1f1f1;
 }
+
+.imagemfooter{
+  position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 70px;
+}
+

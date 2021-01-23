@@ -1,7 +1,8 @@
-window.onload = function() {
-    var signin = document.getElementById('signin')
-    signin.addEventListener("click", function() {
+$(document).ready(function() {
+    var loginButton = document.getElementById('loginButton')
+    loginButton.addEventListener("click", function() {
         var data = {}
+        console.log("12345")
         const email = document.getElementById('email').value
         const password = document.getElementById('pwd').value
         data.email = email
@@ -14,24 +15,31 @@ window.onload = function() {
                 body: JSON.stringify(data)
             })
             .then(response => {
+                console.log(response)
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
                 else {
-                    login()
-                    async function login() {
-                        const res = await fetch('https://safeandsoundpw.herokuapp.com/signinSuccess');
-                        alert("Autenticação feita com sucesso!")
-                        window.location.replace("login.html")
-                        return response.json();
-                    }
+                    localStorage.setItem('currentUserEmail', email)
+                    Swal.fire(
+                        'Autenticação feita com sucesso!',
+                        '',
+                        'success'
+                    ).then((result => {
+                        window.location.replace("https://59143d8da0ed402fb2c105d635b81bd7.vfs.cloud9.us-east-1.amazonaws.com/_static/safeandsound.github.io/CO/Back-office/startbootstrap/dashboard.html")
+                        //return response.json();
+                    }))
+
                 }
-            }).then(function(result) {
-                console.log(result);
+
             })
             .catch(error => {
-                alert(`Pedido falhado: ${error}`);
+                Swal.fire(
+                    'Oops!',
+                    `Erro:Pedido falhado: ${error}`,
+                    'error'
+                )
             });
 
     });
-}
+})

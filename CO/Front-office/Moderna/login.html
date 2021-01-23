@@ -10,7 +10,7 @@
   <title>Policia Municipal - Login</title>
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
-  
+
   <!-- Favicons -->
   <link href="safe and sound.png" rel="icon">
   <link href="safe and sound.png" rel="apple-touch-icon">
@@ -107,7 +107,7 @@
                     <label for="pwd">Password:</label>
                     <input type="password" class="form-control" id="pwd" name="pwd" data-rule="required|minlength-6 " style=" margin-top: 20px; margin-bottom: 20px;  margin-right: 10px;" autocomplete="off">
                   </div>
-                  <button class="btn btn-primary" type="submit" style="margin-left: 160px;margin-right: 150px" id="signin">Entrar</button>
+                  <button class="btn btn-primary" type="button" style="margin-left: 160px;margin-right: 150px" id="loginButton">Entrar</button>
                 </form>
               </div>
             </div>
@@ -162,7 +162,7 @@
 <!-- End Footer -->
 
 <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- Vendor JS Files -->
 <script src="assets/vendor/jquery/jquery.min.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -175,10 +175,10 @@
 <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="assets/vendor/aos/aos.js"></script>
 
-<!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+<!-- Template Main JS File 
+<script src="assets/js/main.js"></script>-->
 <script src="controllers/login.controller.js"></script>
-<script src="controllers/js-form-validator.js"></script>
+<!--script src="controllers/js-form-validator.js"></script-->
 </body>
 
 </html>
