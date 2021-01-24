@@ -27,7 +27,6 @@ $(document).ready(function() {
                         'success'
                     ).then((result => {
                         window.location.replace("https://59143d8da0ed402fb2c105d635b81bd7.vfs.cloud9.us-east-1.amazonaws.com/_static/safeandsound.github.io/CO/Back-office/startbootstrap/dashboard.html")
-                        //return response.json();
                     }))
 
                 }

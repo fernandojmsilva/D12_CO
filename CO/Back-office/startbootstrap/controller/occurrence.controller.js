@@ -64,6 +64,7 @@ window.onload = function() {
                 let selectedOccurrence
                 //archive occurrence action
                 $table.on('click', 'button.archive-action', function() {
+                    //dados da ocorrencia de determinada linha: linha onde foi acionado o botao de arquivo  
                     var closestRow = $(this).closest('tr');
                     var data = $table.row(closestRow).data();
                     selectedOccurrence = data
@@ -72,6 +73,7 @@ window.onload = function() {
 
                     $('#occurrenceArchiveModal').modal('show')
                 })
+                //manager assigned action
                 $table.on('click', 'button.manager-action', function() {
                     var closestRow = $(this).closest('tr');
                     var data = $table.row(closestRow).data();
@@ -86,6 +88,8 @@ window.onload = function() {
 
                 })
                 document.getElementById('archiveOccurrence').onclick = function(e) {
+                    //spread operator: copia os dados da ocorrencia selecionada
+                    //dicionario para submissao do PUT, estado da ocorrencia passa a terminado e filed = yes
                     var data = { ...selectedOccurrence }
                     console.log(selectedOccurrence)
                     var id = document.getElementById('occurrenceIdArchive').value
@@ -106,7 +110,7 @@ window.onload = function() {
                                 throw Error(response.statusText);
                             }
                             else {
-
+                                //ocorrencia arquivada, manager associado à mesma fica Disponivel
                                 var id = data.fk_Occ_manager_id
                                 var dataManager = {}
                                 fetch(`https://safeandsoundpw.herokuapp.com/operation_managers/${id}`)
