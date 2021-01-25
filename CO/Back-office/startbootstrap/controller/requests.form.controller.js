@@ -36,7 +36,6 @@ function updateRequest(id, data) {
 
 function saveRequest(request, complainer) {
     //criar dicionario
-    console.log(complainer)
     var dataRequest = {};
     dataRequest.filed = "No"
     dataRequest.status = "Não Validado"
@@ -63,8 +62,12 @@ function saveRequest(request, complainer) {
     if (document.getElementById('anonimo').checked) {
         var anonimityValue = document.getElementById('anonimo').value;
         dataRequest.anonymity = anonimityValue;
+        console.log(dataRequest)
         updateRequest(request.request_id, dataRequest)
             .then(response => {
+                if (!response.ok) {
+                    console.log(error)
+                }
                 Swal.fire(
                     'Pedido submetido com sucesso.',
                     '',
@@ -110,7 +113,7 @@ function saveRequest(request, complainer) {
             }
             else {
                 dataRequest.fk_Requests_complainer_cc = dataComplainer.complainer_cc
-                updateRequest(dataRequest)
+                updateRequest(request.request_id, dataRequest)
                     .then(response => {
                         document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
                         Swal.fire(
@@ -205,7 +208,6 @@ window.onload = function() {
                 var noAnonymity = document.getElementById('naoAnonimo')
                 noAnonymity.disabled = true
 
-
             }
             else {
                 var naoAnonimo = document.getElementById('naoAnonimo')
@@ -258,10 +260,11 @@ window.onload = function() {
 
                         }
                         //initValidator criado no request.validator.js
+                        console.log(complainer)
                         let validator = initValidator(() => saveRequest(request, complainer))
                     })
             }
-
+            let validator = initValidator(() => saveRequest(request, complainer))
 
         })
 
@@ -271,6 +274,9 @@ window.onload = function() {
         //para editar dados do pedido --> todas as tags input e textarea passam a input.readOnly = false
         document.getElementById('formNewRequest').querySelectorAll('input, textarea').forEach(input => {
             input.readOnly = false
+        })
+        document.getElementById('formNewRequest').querySelectorAll('input[name="complainer_CC"],input[name="date"],input[name="time"]').forEach(input => {
+            input.readOnly = true
         })
         //todas tags select deixam de estar disabled
         document.getElementById('formNewRequest').querySelectorAll('select, input[name="type"]').forEach(select => {

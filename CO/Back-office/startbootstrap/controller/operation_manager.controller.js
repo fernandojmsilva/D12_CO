@@ -102,7 +102,7 @@ window.onload = function() {
                                         else {
                                             Swal.fire(
                                                 'Atribuição de gestor feita com sucesso.',
-                                                `Gestor com id=${id} está agora indisponível.`,
+                                                `Gestor com id=${manager_id} está agora indisponível.`,
                                                 'success'
                                             ).then((result => {
                                                 window.location = "occurrences.html"

@@ -127,19 +127,11 @@ window.onload = function() {
                                             if (!response.ok) {
                                                 throw Error(response.statusText);
                                             }
-                                            else {
-                                                Swal.fire(
-                                                    'Atribuição de gestor!',
-                                                    `Gestor com id=${id} está agora disponível.`,
-                                                    'info'
-                                                )
-                                            }
-
                                         })
                                     })
                                 Swal.fire(
-                                    'Ocorrência arquivada com sucesso.',
-                                    '',
+                                    'Ocorrência arquivada e atribuição do gestor feita com sucesso.',
+                                    `Gestor com id=${id} está agora disponível`,
                                     'success'
                                 ).then((result => {
                                     window.location = "finished-occurrences.html"
