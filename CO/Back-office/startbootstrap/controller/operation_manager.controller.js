@@ -3,7 +3,6 @@ window.onload = function() {
         fetch('https://safeandsoundpw.herokuapp.com/operation_managers')
             .then(response => response.json())
             .then(managers => {
-                console.log(managers);
                 var $table = $('#dataTableManagers').DataTable({
                     data: managers,
                     columns: [
@@ -14,10 +13,6 @@ window.onload = function() {
                             "render": function(value, cell, request) {
                                 return formatDate(value)
                             }
-                        },
-                        {
-                            title: "Distância ao local (Km) ",
-                            data: 'distance_from_scene'
                         },
                         {
                             title: "Rating",
@@ -64,19 +59,16 @@ window.onload = function() {
                 let selectedManager
                 $table.on('click', 'button.manager-assign', function() {
                     var urlParams = new URLSearchParams(window.location.search)
-                    console.log(urlParams.get('id'))
                     const id = urlParams.get('id')
                     var closestRow = $(this).closest('tr');
                     var dataManager = $table.row(closestRow).data();
                     selectedManager = dataManager
                     const manager_id = dataManager.manager_id
-                    console.log(dataManager)
                     var data = {}
                     data.fk_Occ_manager_id = manager_id
                     fetch(`https://safeandsoundpw.herokuapp.com/occurrences/${urlParams.get('id')}`)
                         .then(response => response.json())
                         .then(occurrence => {
-                            console.log(occurrence[0])
                             var start_date = occurrence[0].start_date
                             data.start_date = parseDate(start_date)
                             data.status1 = occurrence[0].status1
@@ -86,7 +78,6 @@ window.onload = function() {
                             data.fk_Occ_request_id = occurrence[0].fk_Occ_request_id
                             data.status2 = occurrence[0].status2
                             data.filed = "no"
-                            console.log(data)
                             fetch(`https://safeandsoundpw.herokuapp.com/occurrences/${urlParams.get('id')}`, {
                                 headers: { 'Content-Type': 'application/json' },
                                 method: 'PUT',

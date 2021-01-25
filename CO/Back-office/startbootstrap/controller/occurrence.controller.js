@@ -1,5 +1,4 @@
 var urlParams = new URLSearchParams(window.location.search)
-console.log(window.location)
 window.onload = function() {
     $(document).ready(function() {
         fetch('https://safeandsoundpw.herokuapp.com/occurrences')
@@ -7,7 +6,6 @@ window.onload = function() {
             .then(occurrences => occurrences.filter(
                 occurrence => occurrence.filed == "no"))
             .then(occurrences => {
-                console.log(occurrences);
                 var tableBody = document.getElementById('dataTableOccurrences');
                 var $table = $('#dataTableOccurrences').DataTable({
                     data: occurrences,
@@ -79,10 +77,9 @@ window.onload = function() {
                     var data = $table.row(closestRow).data();
                     selectedOccurrence = data
                     document.getElementById('occurrenceStartDate').value = parseDate(data.start_date)
-
                     document.getElementById('occurrenceIdArchive').value = data.occurrence_id
                     var id = data.occurrence_id
-                    console.log(selectedOccurrence)
+                   
                     window.location = `managers.html?id=${id}`
 
 
@@ -91,7 +88,6 @@ window.onload = function() {
                     //spread operator: copia os dados da ocorrencia selecionada
                     //dicionario para submissao do PUT, estado da ocorrencia passa a terminado e filed = yes
                     var data = { ...selectedOccurrence }
-                    console.log(selectedOccurrence)
                     var id = document.getElementById('occurrenceIdArchive').value
                     var end_date = document.getElementById('endDateOcurrence').value
                     var start_date = document.getElementById('occurrenceStartDate').value
@@ -99,7 +95,6 @@ window.onload = function() {
                     data.filed = "yes"
                     data.status1 = "Terminado"
                     data.end_date = end_date
-                    console.log(data)
                     if (new Date(start_date) < new Date(end_date)) {
                         fetch(`https://safeandsoundpw.herokuapp.com/occurrences/${id}`, {
                             headers: { 'Content-Type': 'application/json' },
@@ -116,7 +111,6 @@ window.onload = function() {
                                 fetch(`https://safeandsoundpw.herokuapp.com/operation_managers/${id}`)
                                     .then(response => response.json())
                                     .then(manager => {
-                                        console.log(manager[0])
                                         var birth_date = manager[0].birth_date
                                         dataManager.birth_date = parseDate(birth_date)
                                         dataManager.rating = manager[0].rating
@@ -125,7 +119,6 @@ window.onload = function() {
                                         dataManager.availability = "Disponivel"
                                         dataManager.status = manager[0].status
                                         data.fk_OM_user_id = manager[0].fk_OM_user_id
-                                        console.log(dataManager)
                                         fetch(`https://safeandsoundpw.herokuapp.com/operation_managers/${id}`, {
                                             headers: { 'Content-Type': 'application/json' },
                                             method: 'PUT',

@@ -5,7 +5,6 @@ window.onload = function() {
             .then(occurrences => occurrences.filter(
                 occurrence => occurrence.filed == "yes"))
             .then(occurrences => {
-                console.log(occurrences);
                 var tableBody = document.getElementById('dataTableFinishedOccurrences');
                 var $table = $('#dataTableFinishedOccurrences').DataTable({
                     data: occurrences,

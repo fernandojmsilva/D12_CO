@@ -7,7 +7,7 @@ function formatDate(value) {
         year: 'numeric'
     })
 }
-
+//submeter datas para o servidor
 function parseDate(value) {
     const date = new Date(value)
     return `${date.getFullYear()}-${date.getMonth()+ 1}-${date.getDate()}`

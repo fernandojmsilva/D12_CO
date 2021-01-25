@@ -39,6 +39,7 @@
              })
      }
      else {
+         //caso o pedido seja nao anonimo cria se outro dicionario dataComplainer que contem os dados do queixoso
          const dataComplainer = {}
          var anonimityValue = document.getElementById('naoAnonimo').value;
          dataRequest.anonymity = anonimityValue;
@@ -59,13 +60,16 @@
              body: JSON.stringify(dataComplainer)
          }).then(function(response) {
              if (!response.ok) {
-                 console.log(response.status);
-                 console.log(response.statusText);
-                 console.log(response.headers);
-                 console.log(response.url);
+                 if (response.status === 409) {
+                     Swal.fire(
+                         'Entradas Duplicadas. Insira corretamente os dados',
+                         '',
+                         'warning'
+                     )
+                 }
              }
              else {
-                 dataRequest.complainer_cc = dataComplainer.complainer_cc
+                 dataRequest.fk_Requests_complainer_cc = dataComplainer.complainer_cc
                  createRequest(dataRequest)
                      .then(response => {
                          document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
@@ -80,10 +84,9 @@
          }).catch(function(err) {
              Swal.fire(
                  'Oops!',
-                 `Erro: Pedido não submetido.Tente mais tarde.`,
+                 `Erro:${err}. Pedido não submetido.Tente mais tarde.`,
                  'error'
              )
-             console.error(err);
          });
      }
  }
@@ -96,10 +99,6 @@
          body: JSON.stringify(data)
      }).then(function(response) {
          if (!response.ok) {
-             console.log(response.status);
-             console.log(response.statusText);
-             console.log(response.headers);
-             console.log(response.url);
              if (response.status === 409) {
                  Swal.fire(
                      'Dados duplicados.',
@@ -114,13 +113,11 @@
          }
          return response
      }).catch(function(err) {
-         console.log(data)
          Swal.fire(
              'Oops!',
-             `Erro: Pedido não submetido.Tente novamente.`,
+             `Erro:${err}. Pedido não submetido.Tente novamente.`,
              'error'
          )
-         console.error(err);
      });
  }
 

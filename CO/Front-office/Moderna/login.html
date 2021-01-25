@@ -7,7 +7,7 @@
 
 
 
-  <title>Policia Municipal - Login</title>
+  <title>Policia Municipal - Área Reservada</title>
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
 
@@ -40,19 +40,18 @@
 </head>
 
 <!-- ======= Header ======= -->
-<header id="header" class="fixed-top ">
-  <div class="container">
+  <header id="header" class="fixed-top ">
+    <div class="container">
 
+      <div class="logo float-left">
+        <h1 class="text-light">
+          <img src="ss32x32.png"></img>
+          <a href="pagina-inicial.html"><span>Policia Municipal</span></a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
 
-    <div class="logo float-left">
-      <h1 class="text-light">
-        <img src="ss32x32.png"></img>
-        <a href="pagina-inicial.html"><span>Polícia Municipal</span></a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-    </div>
-
-    <nav class="nav-menu float-right d-none d-lg-block">
+          <nav class="nav-menu float-right d-none d-lg-block">
       <ul>
         <li><a href="pagina-inicial.html"><i class="bx bx-home"></i></a></li>
         <li><a href="sobre-nos.html">Sobre Nós</a></li>
@@ -65,9 +64,10 @@
     </nav>
     <!-- .nav-menu -->
 
-  </div>
-</header>
-<!-- End Header -->
+
+    </div>
+  </header>
+  <!-- End Header -->
 
 <main id="main">
 
@@ -76,11 +76,11 @@
     <div class="container">
 
       <div class="d-flex justify-content-between align-items-center">
-        <h2>Login</h2>
+        <h2>Área Reservada</h2>
 
         <ol>
           <li><a href="pagina-inicial.html">Página Inicial</a></li>
-          <li>Login</li>
+          <li>Área Reservada</li>
         </ol>
       </div>
 
@@ -105,7 +105,7 @@
                   </div>
                   <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input type="password" class="form-control" id="pwd" name="pwd" data-rule="required|minlength-6 " style=" margin-top: 20px; margin-bottom: 20px;  margin-right: 10px;" autocomplete="off">
+                    <input type="password" class="form-control" id="pwd" name="pwd" style=" margin-top: 20px; margin-bottom: 20px;  margin-right: 10px;" autocomplete="off" data-rule="required|password">
                   </div>
                   <button class="btn btn-primary" type="button" style="margin-left: 160px;margin-right: 150px" id="loginButton">Entrar</button>
                 </form>
@@ -115,52 +115,8 @@
         </div>
       </div>
     </section>
-  </body>
-</main>
-
-<!-- ======= Footer ======= -->
-<footer id="footer" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
-
-  <div class="footer-top">
-    <div class="container">
-      <div class="row">
-
-
-
-        <div class="col-lg-3 col-md-6 footer-contact">
-          <p>
-            <strong>Telefone:</strong> +253421222 <br>
-            <strong>FAX:</strong> +253518411 <br>
-            <strong>Email:</strong>policia.municipal@cm-guimaraes.pt<br>
-          </p>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6 footer-location">
-          <p>
-            <strong>Rua:</strong> Travessa D.Aninhas <br>
-            <strong>Código Postal:</strong> 4800-159 Guimarães <br>
-          </p>
-        </div>
-
-        <div class="col-lg-3 col-md-6 footer-info">
-          <p>Municipal Police © 2020 | Privacy Policy</p>
-          <div class="social-links mt-3">
-            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-
-</footer>
-<!-- End Footer -->
-
+    </main>
+    
 <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- Vendor JS Files -->
@@ -177,8 +133,9 @@
 
 <!-- Template Main JS File 
 <script src="assets/js/main.js"></script>-->
+<script src="controllers/js-form-validator.js"></script>
 <script src="controllers/login.controller.js"></script>
-<!--script src="controllers/js-form-validator.js"></script-->
+
 </body>
 
 </html>

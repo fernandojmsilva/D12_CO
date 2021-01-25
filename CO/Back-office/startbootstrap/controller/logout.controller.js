@@ -1,4 +1,4 @@
-/*$(document).ready(function() {
+$(document).ready(function() {
     var logout = document.getElementById('currentUserLogout')
     logout.addEventListener("click", function() {
 
@@ -7,8 +7,9 @@
         fetch('https://safeandsoundpw.herokuapp.com/logout')
             .then(response => response.json())
             .then(
-                //window.location.replace('https://59143d8da0ed402fb2c105d635b81bd7.vfs.cloud9.us-east-1.amazonaws.com/_static/safeandsound.github.io/CO/Front-office/Moderna/login.html') 
-                localStorage.removeItem("email"))
+                localStorage.removeItem("currentUserEmail"))
+                window.location.replace('https://59143d8da0ed402fb2c105d635b81bd7.vfs.cloud9.us-east-1.amazonaws.com/_static/safeandsound.github.io/CO/Front-office/Moderna/login.html') 
+                
     });
 
-})*/
+})

@@ -5,7 +5,6 @@ window.onload = function() {
             .then(requests => requests.filter(
                 request => request.filed == "Yes"))
             .then(requests => {
-                console.log(requests);
                 var tableBody = document.getElementById('dataTableArchivedRequests');
                 var $table = $('#dataTableArchivedRequests').DataTable({
                     data: requests,

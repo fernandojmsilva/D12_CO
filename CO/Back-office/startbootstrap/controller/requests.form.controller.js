@@ -1,5 +1,4 @@
 function updateRequest(id, data) {
-    console.log(data);
     return fetch(`https://safeandsoundpw.herokuapp.com/requests/${id}`, {
         headers: { 'Content-Type': 'application/json' },
         method: 'PUT',
@@ -29,10 +28,9 @@ function updateRequest(id, data) {
     }).catch(function(err) {
         Swal.fire(
             'Oops!',
-            `Erro: Pedido não submetido.Erro na alteraçao.Tente novamente.`,
+            `Erro:${err}. Pedido não submetido.Erro na alteraçao.Tente novamente.`,
             'error'
         )
-        console.error(err);
     });
 }
 
@@ -65,7 +63,11 @@ function saveRequest(request, complainer) {
         dataRequest.anonymity = anonimityValue;
         updateRequest(request.request_id, dataRequest)
             .then(response => {
-                alert("Request submitted with success");
+                Swal.fire(
+                    'Pedido submetido com sucesso.',
+                    '',
+                    'success'
+                )
             })
     }
     else {
@@ -94,7 +96,11 @@ function saveRequest(request, complainer) {
                 console.log(response.headers);
                 console.log(response.url);
                 if (response.status === 409) {
-                    alert("Duplicated Entry");
+                    Swal.fire(
+                        'Dados duplicados.',
+                        'Reintroduza corretamente os dados',
+                        'warning'
+                    )
                 }
                 else {
                     throw Error(response.statusText);
@@ -106,13 +112,20 @@ function saveRequest(request, complainer) {
                 updateRequest(dataRequest)
                     .then(response => {
                         document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
-                        alert("Complainer data submitted with success");
+                        Swal.fire(
+                            'Pedido atualizado e submetido com sucesso.',
+                            '',
+                            'success'
+                        )
                     })
 
             }
         }).catch(function(err) {
-            alert("Complainer data submission error");
-            console.error(err);
+            Swal.fire(
+                'Oops!',
+                `Erro:${err}. Pedido não submetido.Tente mais tarde.`,
+                'error'
+            )
         });
     }
 }
@@ -121,8 +134,8 @@ function saveRequest(request, complainer) {
 
 
 window.onload = function() {
+    //id passado no URL do browser e que corresponde ao id do pedido
     var urlParams = new URLSearchParams(window.location.search)
-    console.log(urlParams.get('id'))
     const id = urlParams.get('id')
     var request
     var complainer
@@ -130,6 +143,7 @@ window.onload = function() {
     fetch(`https://safeandsoundpw.herokuapp.com/requests/${urlParams.get('id')}`)
         .then(response => response.json())
         .then(requests => {
+            //todos os input por defeitos estao readOnly = true
             document.querySelectorAll('input').forEach(input => {
                 input.readOnly = true
             })
@@ -138,7 +152,7 @@ window.onload = function() {
             if (request.status == "Validado") {
                 document.getElementById("changes").style.display = "none"
             }
-            console.log(request)
+
             dateOcurrenceInput.valueAsDate = new Date(request.date)
 
             console.log(new Date(request.date))
@@ -202,8 +216,10 @@ window.onload = function() {
                 fetch(`https://safeandsoundpw.herokuapp.com/complainers/${request.fk_Requests_complainer_cc}`)
                     .then(response => response.json())
                     .then(complainers => {
-                        complainer = complainers[0]
-                        if (request.fk_Requests_complainer_cc == complainer.complainer_cc) {
+                        console.log(complainers)
+                        var complainer = complainers[0]
+                        //dados provenientes do servidor sao introduzidos no formulario 
+                        if (request.fk_Requests_complainer_cc == complainers[0].complainer_cc) {
                             var ccInput = document.getElementById('inputCC')
 
                             ccInput.value = complainer.complainer_cc
@@ -248,20 +264,22 @@ window.onload = function() {
 
 
         })
-
+    
+    //quando se carrega no botao para editar:
     document.getElementById("changes").onclick = function(e) {
+        //nao será possivel alterar o anonimato o pedido
+        //para editar dados do pedido --> todas as tags input e textarea passam a input.readOnly = false
         document.getElementById('formNewRequest').querySelectorAll('input, textarea').forEach(input => {
             input.readOnly = false
         })
+        //todas tags select deixam de estar disabled
         document.getElementById('formNewRequest').querySelectorAll('select, input[name="type"]').forEach(select => {
             select.disabled = false
         })
-
+        //botao de guardar alteraçoes surge 
         document.getElementById("submit").style.display = 'block'
 
 
     }
-
-    //selecionar todos os elementos com o nome anonimato
 
 }

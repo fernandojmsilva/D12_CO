@@ -17,7 +17,7 @@
          messages: {
              en: {
                  birth: {
-                     incorrect: "Date Ocurrence must be after complainer's birth"
+                     incorrect: "A data da Ocurrêmcia deve ser posterior à data de nascimento do queixoso."
                  }
              }
          }

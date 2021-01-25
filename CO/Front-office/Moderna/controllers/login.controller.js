@@ -2,7 +2,6 @@ $(document).ready(function() {
     var loginButton = document.getElementById('loginButton')
     loginButton.addEventListener("click", function() {
         var data = {}
-        console.log("12345")
         const email = document.getElementById('email').value
         const password = document.getElementById('pwd').value
         data.email = email
@@ -35,7 +34,7 @@ $(document).ready(function() {
             .catch(error => {
                 Swal.fire(
                     'Oops!',
-                    `Erro:Pedido falhado: ${error}`,
+                    `Pedido falhado: ${error}`,
                     'error'
                 )
             });

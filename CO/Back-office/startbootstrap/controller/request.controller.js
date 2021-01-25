@@ -5,7 +5,6 @@ window.onload = function() {
             .then(requests => requests.filter(
                 request => request.filed == "No"))
             .then(requests => {
-                console.log(requests);
                 var tableBody = document.getElementById('tableBody');
                 var $table = $('#dataTableRequests').DataTable({
                     data: requests,
@@ -62,8 +61,6 @@ window.onload = function() {
                     var closestRow = $(this).closest('tr');
                     var data = $table.row(closestRow).data();
                     selectedRequest = data
-                    console.log(data, 'validate')
-
                     document.getElementById('requestIdValidate').value = data.request_id
                     document.getElementById('requestStartDate').value = parseDate(data.date)
                     document.getElementById('requestLocality').value = data.locality
@@ -80,7 +77,6 @@ window.onload = function() {
                     data.status1 = "A decorrer"
                     data.local = document.getElementById('requestLocality').value
                     data.status2 = "on"
-                    console.log(data)
                     data.fk_Occ_request_id = document.getElementById('requestIdValidate').value
                     fetch(`https://safeandsoundpw.herokuapp.com/occurrences`, {
                         headers: { 'Content-Type': 'application/json' },
@@ -105,7 +101,6 @@ window.onload = function() {
                             var data = { ...selectedRequest }
                             data.status = "Validado"
                             var id = document.getElementById('requestIdValidate').value
-                            console.log(id)
                             fetch(`https://safeandsoundpw.herokuapp.com/requests/${id}`, {
                                 headers: { 'Content-Type': 'application/json' },
                                 method: 'PUT',
@@ -125,20 +120,18 @@ window.onload = function() {
                             }).catch(function(err) {
                                 Swal.fire(
                                     'Oops!',
-                                    `Erro: Pedido não validado.Tente mais tarde.`,
+                                    `Erro:${err} Pedido não validado.Tente mais tarde.`,
                                     'error'
                                 )
-                                console.error(err);
                             });
 
                         }
                     }).catch(function(err) {
                         Swal.fire(
                             'Oops!',
-                            `Erro: Pedido não validado.Tente mais tarde.`,
+                            `Erro:${err} Pedido não validado.Tente mais tarde.`,
                             'error'
                         )
-                        console.error(err);
                     });
                 }
                 //archive request action
@@ -149,7 +142,6 @@ window.onload = function() {
                     data.date = parseDate(data.date)
                     var id = data.request_id
                     delete data.request_id
-                    console.log(data)
                     fetch(`https://safeandsoundpw.herokuapp.com/requests/${id}`, {
                         headers: { 'Content-Type': 'application/json' },
                         method: 'PUT',
@@ -170,10 +162,9 @@ window.onload = function() {
 
                         Swal.fire(
                             'Oops!',
-                            `Erro: Pedido não arquivado.Tente mais tarde.`,
+                            `Erro:${err}.Pedido não arquivado.Tente mais tarde.`,
                             'error'
                         )
-                        console.error(err);
                     });
                 })
 
