@@ -148,7 +148,7 @@ window.onload = function() {
                         body: JSON.stringify(data)
                     }).then(function(response) {
                         if (!response.ok) {
-                            throw Error(response.statusText);
+                            throw Error(response.statusText);}
                             Swal.fire(
                                 'Pedido arquivado com sucesso.',
                                 '',
@@ -157,7 +157,7 @@ window.onload = function() {
                                 window.location = "archived-requests.html"
                             }))
                             return response
-                        }
+                        
                     }).catch(function(err) {
 
                         Swal.fire(

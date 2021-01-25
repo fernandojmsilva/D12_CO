@@ -63,7 +63,7 @@ function saveRequest() {
                     )
                }
                else {
-                    dataRequest.complainer_cc = dataComplainer.complainer_cc
+                    dataRequest.fk_Requests_complainer_cc = dataComplainer.complainer_cc
                     createRequest(dataRequest)
                          .then(response => {
                               document.getElementById("formNewRequest").reset(); //limpeza dos dados do form

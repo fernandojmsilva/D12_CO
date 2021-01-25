@@ -36,7 +36,9 @@ function updateRequest(id, data) {
 
 function saveRequest(request, complainer) {
     //criar dicionario
+    console.log(complainer)
     var dataRequest = {};
+    dataRequest.filed = "No"
     dataRequest.status = "Não Validado"
     dataRequest.status1 = "on"
     dataRequest.date = document.getElementById("dateOcurrence").value;
@@ -83,7 +85,6 @@ function saveRequest(request, complainer) {
         dataComplainer.birth_date = document.getElementById("birth").value;
         dataComplainer.postal_code = document.getElementById("inputCode").value;
         dataComplainer.gender = document.getElementById('gender').value
-
         //submeter dados do queixoso no servidor
         fetch(`https://safeandsoundpw.herokuapp.com/complainers/${complainer.complainer_cc}`, {
             headers: { 'Content-Type': 'application/json' },
@@ -108,7 +109,7 @@ function saveRequest(request, complainer) {
 
             }
             else {
-                dataRequest.complainer_cc = dataComplainer.complainer_cc
+                dataRequest.fk_Requests_complainer_cc = dataComplainer.complainer_cc
                 updateRequest(dataRequest)
                     .then(response => {
                         document.getElementById("formNewRequest").reset(); //limpeza dos dados do form
@@ -246,25 +247,24 @@ window.onload = function() {
 
                             if (complainer.gender == "M") {
                                 var male = document.getElementById('male')
-                                male.selected = true
+                                //male.selected = true
                             }
                             else {
                                 var female = document.getElementById('female')
-                                female.selected = true
+                                //female.selected = true
                             }
 
 
 
                         }
-
+                        //initValidator criado no request.validator.js
+                        let validator = initValidator(() => saveRequest(request, complainer))
                     })
             }
-            //initValidator criado no request.validator.js
-            let validator = initValidator(() => saveRequest(request, complainer))
 
 
         })
-    
+
     //quando se carrega no botao para editar:
     document.getElementById("changes").onclick = function(e) {
         //nao será possivel alterar o anonimato o pedido
